@@ -1,4 +1,6 @@
 
+.. image:: FluorAnalysis.jpg
+           :alt: fluorA logo
 
 fluorA
 =============================
