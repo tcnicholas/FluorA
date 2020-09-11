@@ -25,9 +25,16 @@ Reading in datafile and plotting:
 * Intensity of a given wavelength versus time.
 
 >>> from fluorA import *
+>>> timeIntervals = 45
+>>> extractWavelength = 520
 
->>> data = fluorAnalysis('directoryName')
->>> data.plot_Ilambda(plotColouring='rainbow')
+>>> expt = fluorAnalysis('directoryName') # read data file.
+>>> expt.plot_Ilambda(plotColouring='rainbow', grid=False, saveFig='image.pdf') # plots I vs lambda. exports fig image.
+>>> expt.plot_iTime(extractWavelength, timeIntervals) # plots I vs time (for 520 nm).
+
+>>> expt.export_lambdaIs(timeIntervals) # exports I vs lamda data.
+>>> expt.export_iTime(extractWavelength, timeIntervals) # exports I vs time (for 520 nm) data.
+
 
 .. _Python: http://www.python.org/
 .. _NumPy: http://docs.scipy.org/doc/numpy/reference/
