@@ -2,7 +2,7 @@
 .. image:: FluorAnalysis.jpg
            :alt: fluorA logo
 
-fluorA
+FluorA
 =============================
 
 Fluorescence Analysis Toolkit.
