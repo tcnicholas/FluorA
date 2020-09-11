@@ -114,32 +114,27 @@ class fluorAnalysis:
     
     
     def export_lambdaIs(self,timeInterval):
-        """ Writes to file, frame--wavelength--intensity(normalised)--time. """
-        
+        """ Writes to all frame intensities to csv file.
+        First row: Frame Name
+        Second row: Time
+        First column: wavelengths
+        Other columns: Intensities for a given frame at a given wavelength.
+            
+        Parameters:
+            
+        timeInterval: time between each frame run (seconds).
+            
+        """
+            
         if not self.frameIs:
             self.__normaliseFrames()
-        
-        numFrames=len(self.frameNames)
-        numWavelengths=len(self.lambdas)
-        
-        wavelengths = [self.lambdas] * numFrames
-        wavelengths = np.concatenate(wavelengths).ravel().tolist()
-        intensities = np.concatenate(self.frameIs).ravel().tolist()
-        
+            
         times = get_timeArray(timeInterval,self.frameIs)
-        
-        frameNames=[]
-        timesRepeat=[]
-        for i,name in enumerate(self.frameNames):
-            frameNames+=[name]*numWavelengths
-            timesRepeat+=[times[i]]*numWavelengths
+        header = 'FrameNum,' + ','.join(self.frameNames)+'\nTime(mins),'+",".join(map(str, times))
+        export = np.insert(np.asarray(self.frameIs).transpose(), 0, self.lambdas, axis=1)
 
-        data = zip(frameNames,wavelengths,intensities,timesRepeat)
-        with open(self.name+'_lambdaIs.csv', 'w') as export:
-            writer = csv.writer(export)
-            for row in data:
-                writer.writerow(row)
-    
+        np.savetxt(self.name+'_lambdaIs.csv', export, delimiter=",", fmt="%1.5f",header=header)
+        
     
     def export_iTime(self,extractWavelength,timeInterval):
         """Writes to file, frame--time--intensity.
@@ -157,10 +152,12 @@ class fluorAnalysis:
         else:
             self.get_frames(extractWavelength=extractWavelength)
             
+        header=['FrameNum','Time (mins)','Intensity']
         times = get_timeArray(timeInterval,self.frameIs)
         data = zip(self.frameNames,times,self.extractIs)
         with open(self.name+f'_iTime_{extractWavelength}nm.csv', 'w') as export:
             writer = csv.writer(export)
+            writer.writerow(header)
             for row in data:
                 writer.writerow(row)
             
