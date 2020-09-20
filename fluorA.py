@@ -171,7 +171,7 @@ class fluorAnalysis:
         
         frameIs=[]; frameNames=[]; IDretired=0
         for infile in sorted(glob.glob(self.directoryPath+'/*.TXT')):
-            if infile != 'log_29May20_114926/buffer.TXT':
+            if infile != self.directoryPath+'/buffer.TXT':
                 
                 # Check frames have been read in correct order.
                 frameNumber = re.search(r'_\d{4}_', infile)
